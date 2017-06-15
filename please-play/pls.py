@@ -14,15 +14,16 @@ def pls(args):
     if args.search:
         print_search_results(youtube_results)
     else:
-        video_id = get_video_id(youtube_results, args.number-1 if args.number else 0)
-        play_id(video_id)
+        video_data = youtube_results[args.number-1 if args.number else 0]
+        play_video(video_data)
 
-def play_id(video_id):
-    youtube_url = 'https://www.youtube.com/watch?v=' + video_id
+def play_video(video_data):
+    print('Playing song: {}'.format(video_data['snippet']['title']))
+    youtube_url = 'https://www.youtube.com/watch?v=' + get_video_id(video_data)
     subprocess.call(['mpv', '--no-video', youtube_url])
 
-def get_video_id(youtube_results, n):
-    return youtube_results[n]['id']['videoId']
+def get_video_id(video_data):
+    return video_data['id']['videoId']
 
 def print_search_results(youtube_results):
     for i, v in enumerate(youtube_results, 1):
