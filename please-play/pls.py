@@ -1,25 +1,28 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import argparse
 import subprocess
 import requests
 
 import search
 
-def plpl(args):
+def pls(args):
     print('args:', args)
 
     youtube_results = search.search(args.song)
     if args.search:
         print_search_results(youtube_results)
     else:
-        if args.number:
-            video_id = youtube_results[args.number-1]['id']['videoId']
-        else:
-           video_id =  youtube_results[0]['id']['videoId']
+        video_id = get_video_id(youtube_results, args.number-1 if args.number else 0)
         play_id(video_id)
 
 def play_id(video_id):
     youtube_url = 'https://www.youtube.com/watch?v=' + video_id
     subprocess.call(['mpv', '--no-video', youtube_url])
+
+def get_video_id(youtube_results, n):
+    return youtube_results[n]['id']['videoId']
 
 def print_search_results(youtube_results):
     for i, v in enumerate(youtube_results, 1):
@@ -32,4 +35,4 @@ if __name__ == "__main__":
     parser.add_argument('song', nargs='?', metavar='string', type=str, help='name of the song to play')
     args = parser.parse_args()
 
-    plpl(args)
+    pls(args)

@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import sys
 import requests
 import json
@@ -5,9 +8,9 @@ import json
 API_KEY = 'AIzaSyAY5s5JYon64zMOIlhCsHG1toZF0YB3a88'
 BASE_URL= 'https://www.googleapis.com/youtube/v3/search?'
 
-def search(query):
-    qs = {
-        'q': query.replace(' ', '+'),
+def search(song):
+    query = {
+        'q': song.replace(' ', '+'),
         'maxResults': 10,
         'safeSearch': "none",
         'part': 'id,snippet',
@@ -15,7 +18,7 @@ def search(query):
         #'videoCategoryId': 10,
         'key': API_KEY
     }
-    query_string = BASE_URL + '&'.join('{}={}'.format(key, val) for key, val in qs.items())
+    query_string = BASE_URL + '&'.join('{}={}'.format(key, val) for key, val in query.items())
 
     try:
         r = requests.get(query_string)
