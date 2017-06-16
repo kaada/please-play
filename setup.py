@@ -22,7 +22,9 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "mpv"
+        "mpv",
+        "youtube-dl",
+        "requests",
     ],
     packages=["please-play"],
 )
