@@ -5,8 +5,10 @@ import sys
 import requests
 import json
 
+
 API_KEY = 'AIzaSyAY5s5JYon64zMOIlhCsHG1toZF0YB3a88'
 BASE_URL= 'https://www.googleapis.com/youtube/v3/search?'
+
 
 def search(song):
     query = {
@@ -25,7 +27,7 @@ def search(song):
         data = json.loads(r.content)
         result_videos = data['items']
     except (requests.exceptions.RequestException, KeyError) as e:
-        print('An error occured during search and parsing: {}'.format(e))
+        print('An error occured during searching and parsing: {}'.format(e))
         sys.exit(1)
 
     return result_videos
