@@ -4,11 +4,11 @@ import subprocess
 BASE_URL = 'https://www.youtube.com/'
 
 
-def play(yt_id, args):
+def play(youtube_id, args):
     playback_args = ['mpv']
 
-    yt_type = 'playlist?list=' if args.playlist else 'watch?v='
-    playback_args.append(BASE_URL + yt_type + yt_id)
+    youtube_type = 'playlist?list=' if args.playlist else 'watch?v='
+    playback_args.append(BASE_URL + youtube_type + youtube_id)
 
     if not args.video:
         playback_args.append('--no-video')

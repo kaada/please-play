@@ -13,7 +13,7 @@ A lightweight terminal based YouTube music player
     
 3. If you are not satisfied;
 
-    List the results and choose another one.
+    List the results, and choose another one.
 
     ```python pls.py 'wonder woman theme' -s```
 
