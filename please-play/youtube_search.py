@@ -11,9 +11,11 @@ def search(song):
     query = {
         'q': song.replace(' ', '+'),
         'maxResults': 10,
-        'safeSearch': "none",
+        'safeSearch': 'none',
         'part': 'id,snippet',
         'type': 'video',
+        # YouTubes music category.
+        # Comment out to get standard search results.
         #'videoCategoryId': 10,
         'key': API_KEY
     }

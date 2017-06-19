@@ -3,14 +3,13 @@
 
 import sys
 import argparse
-import subprocess
-import requests
 
-import search
+import youtube_search
+import mpv_gateway
 
 
 def main(args):
-    youtube_results = search.search(args.song)
+    youtube_results = youtube_search.search(args.song)
     if args.search:
         print_search_results(youtube_results)
     else:
@@ -18,13 +17,9 @@ def main(args):
             print('Please enter a number in range {}-{}'.format(1, len(youtube_results)))
             sys.exit(1)
         video_data = youtube_results[args.number-1 if args.number else 0]
-        play_video(video_data)
 
-
-def play_video(video_data):
-    print('Playing song: {}'.format(video_data['snippet']['title']))
-    youtube_url = 'https://www.youtube.com/watch?v=' + get_video_id(video_data)
-    subprocess.call(['mpv', '--no-video', youtube_url])
+        print('Playing song: {}'.format(video_data['snippet']['title']))
+        mpv_gateway.play(get_video_id(video_data), args)
 
 
 def get_video_id(video_data):
@@ -38,9 +33,11 @@ def print_search_results(youtube_results):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Play music from YouTube.')
+    parser.add_argument('song', metavar='string', type=str, help='name of the song to play')
     parser.add_argument('-s', '--search', action='store_true', help='list the YouTube results')
     parser.add_argument('-n', '--number', type=int, help='number of the YouTube result to play')
-    parser.add_argument('song', metavar='string', type=str, help='name of the song to play')
+    parser.add_argument('-r', '--repeat', action='store_true', help='play input on repeat')
+    parser.add_argument('-v', '--video', action='store_true', help='show video')
     args = parser.parse_args()
 
     main(args)
