@@ -7,19 +7,20 @@ API_KEY = 'AIzaSyAY5s5JYon64zMOIlhCsHG1toZF0YB3a88'
 BASE_URL= 'https://www.googleapis.com/youtube/v3/search?'
 
 
-def search(song):
+def search(search_key, playlist=False):
     query = {
-        'q': song.replace(' ', '+'),
+        'q': search_key.replace(' ', '+'),
         'maxResults': 10,
         'safeSearch': 'none',
         'part': 'id,snippet',
-        'type': 'video',
+        'type': 'video' if not playlist else 'playlist',
         # YouTubes music category.
         # Comment out to get standard search results.
         #'videoCategoryId': 10,
         'key': API_KEY
     }
-    query_string = BASE_URL + '&'.join('{}={}'.format(key, val) for key, val in query.items())
+    query_string = BASE_URL + '&'.join('{}={}'.format(key, val) \
+            for key, val in query.items())
 
     try:
         r = requests.get(query_string)
