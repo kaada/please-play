@@ -13,7 +13,7 @@ def search(search_key, playlist=False):
         'maxResults': 10,
         'safeSearch': 'none',
         'part': 'id,snippet',
-        'type': 'video' if not playlist else 'playlist',
+        'type': 'playlist' if playlist else 'video',
         # YouTubes music category.
         # Comment out to get standard search results.
         #'videoCategoryId': 10,
