@@ -9,6 +9,10 @@ import mpv_gateway
 
 
 def main(args):
+    # Wrapping apostrophes, around the song title, are not needed
+    if isinstance(args.searchkey, list):
+        args.searchkey = ' '.join(args.searchkey)
+
     youtube_results = youtube_search.search(args.searchkey, \
             True if args.playlist else False)
 
@@ -47,7 +51,7 @@ def print_search_results(youtube_results, playlist):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Play music from YouTube.')
-    parser.add_argument('searchkey', metavar='string', type=str, help='name of the song or playlist to play')
+    parser.add_argument('searchkey', nargs="*", metavar='string', type=str, help='name of the song or playlist to play')
     parser.add_argument('-pl', '--playlist', action='store_true', help='name of the YouYube playlist to play')
     #TODO: parser.add_argument('-f', '--file', action='store_true', help='name of the file with song(s) (i.e. playlist) to play') 
     parser.add_argument('-s', '--search', action='store_true', help='list the YouTube results')
