@@ -9,14 +9,14 @@ A lightweight terminal based YouTube music player
 
 2. Play whatever song you want:
 
-    ```python pls.py wonder woman theme```
+    ```python pls.py "wonder woman theme"```
     
 3. If you are not satisfied;
 
     List the results, and choose another one.
 
-    ```python pls.py wonder woman theme -s```
+    ```python pls.py "wonder woman theme" -s```
 
-    ```python pls.py wonder woman theme -n 7```
+    ```python pls.py "wonder woman theme" -n 7```
     
 Please check out ```python pls.py -h``` for additional features and arguments.
