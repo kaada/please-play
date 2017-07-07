@@ -3,15 +3,18 @@ import subprocess
 BASE_URL = 'https://www.youtube.com/'
 
 
-def play(youtube_id, args):
+def play(youtube_ids, ytplaylist, video, repeat):
     playback_args = ['mpv']
 
-    youtube_type = 'playlist?list=' if args.playlist else 'watch?v='
-    playback_args.append(BASE_URL + youtube_type + youtube_id)
+    if ytplaylist:
+        playback_args.append(BASE_URL + 'playlist?list=' + youtube_ids[0])
+    else:
+        for youtube_id in youtube_ids:
+            playback_args.append(BASE_URL + 'watch?v=' + youtube_id)
 
-    if not args.video:
+    if not video:
         playback_args.append('--no-video')
-    if args.repeat:
+    if repeat:
         playback_args.append('--loop-playlist')
 
     subprocess.call(playback_args)
