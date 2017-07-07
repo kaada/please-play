@@ -16,7 +16,7 @@ def main(args):
                 for line in f:
                     args.searchkeys.append(line.rstrip('\n'))
 
-    if args.ytplaylist:
+    elif args.ytplaylist:
         args.searchkeys = [args.ytplaylist]
 
     #get youtube results
@@ -26,7 +26,7 @@ def main(args):
                 True if args.ytplaylist else False)
         youtube_results.append(search_result)
 
-    #print search
+    #print search results
     if args.search:
         if len(args.searchkeys) == 1:
             print_search_results(youtube_results[0], \
@@ -92,8 +92,8 @@ def print_search_results(youtube_results, playlist):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Play music from YouTube.')
-    parser.add_argument('searchkeys', nargs='*', metavar='string', type=str, help='name of the song or playlist to play')
-    parser.add_argument('-pl', '--ytplaylist', metavar='string', type=str, help='name of the YouYube playlist to play')
+    parser.add_argument('searchkeys', nargs='*', metavar='string', type=str, help='name of the song(s) to play')
+    parser.add_argument('-pl', '--ytplaylist', metavar='string', type=str, help='name of the YouTube playlist to play')
     parser.add_argument('-f', '--file', metavar='string', type=str, help='name of the file with song(s) (i.e. playlist) to play') 
     parser.add_argument('-s', '--search', action='store_true', help='list the YouTube results')
     parser.add_argument('-n', '--number', type=int, help='number of the YouTube result to play')
