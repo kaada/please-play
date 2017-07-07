@@ -34,34 +34,41 @@ def main(args):
             sys.exit(0)
         else:
             print('Error: Please enter one search key only')
+            sys.exit(1)
 
     #choose number (0 by default)
-    list_of_song_data = []
+    list_of_media_data = []
     if args.number:
-        if len(args.searchkeys) != 1:
-            print('Error: Cannot use number with multiple search keys')
-        elif not 1 <= args.number <= len(youtube_results[0]):
-            print('Error: Please enter a number in range {}-{}'.format(1, \
-                    len(youtube_results[0])))
+        if len(args.searchkeys) == 1 and 1 <= args.number <= len(youtube_results[0]):
+            list_of_media_data.append(youtube_results[0][args.number-1])
         else:
-            list_of_song_data.append(youtube_results[0][args.number-1])
+            if len(args.searchkeys) != 1:
+                print('Error: Cannot specify number with multiple search keys')
+            if not 1 <= args.number <= len(youtube_results[0]):
+                    print('Error: Please enter a number in range {}-{}'.format(1, \
+                            len(youtube_results[0])))
+            sys.exit(1)
     else:
         for r in youtube_results:
-            list_of_song_data.append(r[0])
+            list_of_media_data.append(r[0])
 
-    #print playback info
-    print('Playing {}:\n\t{}'.format('YouTube playlist' if args.ytplaylist \
-            else 'song(s)', \
-            '\n\t'.join([get_media_title(d) for d in list_of_song_data])))
-
-    #get playlist/video id(s)
+    #get and print playlist/video name(s) and id(s)
     yt_ids = []
     if args.ytplaylist:
-        yt_ids.append(get_playlist_id(list_of_song_data[0]))
+        print('Playing YouTube Playlist{}:\n- {} ({})'.format( \
+                ' (on repeat)' if args.repeat else '',
+                get_media_title(list_of_media_data[0]),
+                get_playlist_id(list_of_media_data[0])))
+        yt_ids.append(get_playlist_id(list_of_media_data[0]))
     else:
-        for d in list_of_song_data:
+        print('Playing song(s){}:'.format(' (on repeat)' if args.repeat else ''))
+        for d in list_of_media_data:
+            print('- {} ({})'.format( \
+                    get_media_title(d),
+                    get_video_id(d)))
             yt_ids.append(get_video_id(d))
 
+    #fire and forget
     mpv_gateway.play(yt_ids, args.ytplaylist, args.video, args.repeat)
 
 
