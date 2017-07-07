@@ -1,8 +1,9 @@
 import sys
 import requests
 import json
+import base64
 
-API_KEY = 'AIzaSyAY5s5JYon64zMOIlhCsHG1toZF0YB3a88'
+API_KEY = 'QUl6YVN5QVk1czVKWW9uNjR6TU9JbGhDc0hHMXRvWkYwWUIzYTg4'
 BASE_URL= 'https://www.googleapis.com/youtube/v3/search?'
 
 
@@ -16,7 +17,8 @@ def search(search_key, playlist=False):
         # YouTubes music category.
         # Comment out to get standard search results.
         #'videoCategoryId': 10,
-        'key': API_KEY
+        # Please don't steal my key
+        'key': base64.b64decode(API_KEY).decode()
     }
     query_string = BASE_URL + '&'.join('{}={}'.format(key, val) \
             for key, val in query.items())

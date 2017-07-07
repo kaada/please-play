@@ -97,8 +97,8 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--file', metavar='string', type=str, help='name of the file with song(s) (i.e. playlist) to play') 
     parser.add_argument('-s', '--search', action='store_true', help='list the YouTube results')
     parser.add_argument('-n', '--number', type=int, help='number of the YouTube result to play')
-    parser.add_argument('-r', '--repeat', action='store_true', help='play input on repeat')
     parser.add_argument('-v', '--video', action='store_true', help='show video')
+    parser.add_argument('-r', '--repeat', action='store_true', help='play input on repeat')
     args = parser.parse_args()
 
     main(args)
