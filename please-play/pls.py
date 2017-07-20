@@ -6,15 +6,14 @@ import argparse
 
 import youtube_search
 import mpv_gateway
+import playlist
 
 
 def main(args):
 
     #load search keys
     if args.file:
-        with open(args.file) as f:
-                for line in f:
-                    args.searchkeys.append(line.rstrip('\n'))
+        args.searchkeys = playlist.fetch_songs(args.file)
 
     elif args.ytplaylist:
         args.searchkeys = [args.ytplaylist]
@@ -36,11 +35,11 @@ def main(args):
             print('Error: Please enter one search key only')
             sys.exit(1)
 
-    #choose number (0 by default)
-    list_of_media_data = []
+    #choose number
+    playlist_data = []
     if args.number:
         if len(args.searchkeys) == 1 and 1 <= args.number <= len(youtube_results[0]):
-            list_of_media_data.append(youtube_results[0][args.number-1])
+            playlist_data.append(youtube_results[0][args.number-1])
         else:
             if len(args.searchkeys) != 1:
                 print('Error: Cannot specify number with multiple search keys')
@@ -50,23 +49,23 @@ def main(args):
             sys.exit(1)
     else:
         for r in youtube_results:
-            list_of_media_data.append(r[0])
+            playlist_data.append(r[0])
 
     #get and print playlist/video name(s) and id(s)
     yt_ids = []
     if args.ytplaylist:
         print('Playing YouTube Playlist{}:\n- {} ({})'.format( \
                 ' (on repeat)' if args.repeat else '',
-                get_media_title(list_of_media_data[0]),
-                get_playlist_id(list_of_media_data[0])))
-        yt_ids.append(get_playlist_id(list_of_media_data[0]))
+                get_media_title(playlist_data[0]),
+                get_playlist_id(playlist_data[0])))
+        yt_ids.append(get_playlist_id(playlist_data[0]))
     else:
         print('Playing song(s){}:'.format(' (on repeat)' if args.repeat else ''))
-        for d in list_of_media_data:
+        for s in playlist_data:
             print('- {} ({})'.format( \
-                    get_media_title(d),
-                    get_video_id(d)))
-            yt_ids.append(get_video_id(d))
+                    get_media_title(s),
+                    get_video_id(s)))
+            yt_ids.append(get_video_id(s))
 
     #fire and forget
     mpv_gateway.play(yt_ids, args.ytplaylist, args.video, args.repeat)
@@ -98,7 +97,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--search', action='store_true', help='list the YouTube results')
     parser.add_argument('-n', '--number', type=int, help='number of the YouTube result to play')
     parser.add_argument('-v', '--video', action='store_true', help='show video')
-    parser.add_argument('-r', '--repeat', action='store_true', help='play input on repeat')
+    parser.add_argument('-r', '--repeat', action='store_true', help='play output on repeat')
     args = parser.parse_args()
 
     main(args)
