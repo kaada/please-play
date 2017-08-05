@@ -5,8 +5,9 @@ A lightweight terminal based YouTube music player
 
 1. Install dependencies:
 
-    ```brew install mpv``` (Or by using pacman/apt-get/++)
-    
+    ```brew install mpv```
+
+(Or by using pacman/apt-get/++)    
     
     ```python setup.py install```
 
