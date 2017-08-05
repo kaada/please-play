@@ -30,7 +30,7 @@ def search(search_key, playlist=False):
         sys.exit(1)
 
     try:
-        data = json.loads(r.content)
+        data = json.loads(r.content.decode('latin1'))
         result_videos = data['items']
     except (KeyError, TypeError) as e:
         print('An error occured during parsing of YouTube data: \n{}'.format(e))
