@@ -22,14 +22,14 @@ def main(args):
     youtube_results = []
     for s in args.searchkeys:
         search_result = youtube_search.search(s, \
-                args.ytplaylist is True)
+                True if args.ytplaylist else False)
         youtube_results.append(search_result)
 
     #print search results
     if args.search:
         if len(args.searchkeys) == 1:
             print_search_results(youtube_results[0], \
-                    args.ytplaylist is True)
+                    True if args.ytplaylist else False)
             sys.exit(0)
         else:
             print('Error: Please enter one search key only')
