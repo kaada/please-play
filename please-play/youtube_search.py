@@ -25,10 +25,16 @@ def search(search_key, playlist=False):
 
     try:
         r = requests.get(query_string)
+    except requests.exceptions.RequestException as e:
+        print('An error occured during search for YouTube data: \n{}'.format(e))
+        sys.exit(1)
+
+    try:
         data = json.loads(r.content)
         result_videos = data['items']
-    except (requests.exceptions.RequestException, KeyError) as e:
-        print('An error occured during searching and parsing: {}'.format(e))
+    except (KeyError, TypeError) as e:
+        print('An error occured during parsing of YouTube data: \n{}'.format(e))
+        print('YouTube returned data:\n---\n{} -> {}\n---'.format(r.status_code, r.content))
         sys.exit(1)
 
     return result_videos
