@@ -3,10 +3,13 @@
 
 import sys
 import argparse
+import webbrowser
 
 import youtube_search
 import mpv_gateway
 import playlist
+
+BASE_URL = 'https://youtube.com/'
 
 
 def main(args):
@@ -53,22 +56,45 @@ def main(args):
 
     #get and print playlist/video name(s) and id(s)
     yt_ids = []
-    if args.ytplaylist:
-        print('Playing YouTube Playlist{}:\n- {} ({})'.format( \
+    if args.open:
+        if args.ytplaylist:
+            print('Opening: {}'.format( \
+                    get_playing_string(playlist_data[0], True)))
+            yt_ids.append(get_playlist_id(playlist_data[0]))
+        else:
+            print('Opening: {}'.format( \
+                    get_playing_string(playlist_data[0], False)))
+            yt_ids.append(get_video_id(playlist_data[0]))
+
+    elif args.ytplaylist:
+        print('Playing YouTube Playlist{}:\n- {}'.format( \
                 ' (on repeat)' if args.repeat else '',
-                get_media_title(playlist_data[0]),
-                get_playlist_id(playlist_data[0])))
+                get_playing_string(playlist_data[0], True)))
         yt_ids.append(get_playlist_id(playlist_data[0]))
+
     else:
         print('Playing song(s){}:'.format(' (on repeat)' if args.repeat else ''))
         for s in playlist_data:
-            print('- {} ({})'.format( \
-                    get_media_title(s),
-                    get_video_id(s)))
+            print('- {}'.format(get_playing_string(s, False)))
             yt_ids.append(get_video_id(s))
 
+    if args.open and len(yt_ids) <= 2:
+        url = BASE_URL + ('playlist?list=' if args.ytplaylist else 'watch?v=') + yt_ids[0]
+        webbrowser.open(url)
+        sys.exit(0)
+
     #fire and forget
-    mpv_gateway.play(yt_ids, args.ytplaylist, args.video, args.repeat)
+    mpv_gateway.play(BASE_URL, yt_ids, args.ytplaylist, args.video, args.repeat)
+
+def get_playing_string(playlist_data, isplaylist):
+    playing_title = get_media_title(playlist_data)
+
+    if isplaylist:
+        playing_id = get_playlist_id(playlist_data)
+    else:
+        playing_id = get_video_id(playlist_data)
+
+    return '{} ({})'.format(playing_title, playing_id)
 
 
 def get_media_title(media_data):
@@ -98,6 +124,7 @@ if __name__ == "__main__":
     parser.add_argument('-n', '--number', type=int, help='number of the YouTube result to play')
     parser.add_argument('-v', '--video', action='store_true', help='show video')
     parser.add_argument('-r', '--repeat', action='store_true', help='play output on repeat')
+    parser.add_argument('-o', '--open', action='store_true', help='open video in browser')
     args = parser.parse_args()
 
     main(args)

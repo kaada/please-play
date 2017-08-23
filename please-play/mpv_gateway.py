@@ -1,9 +1,7 @@
 import subprocess
 
-BASE_URL = 'https://www.youtube.com/'
 
-
-def play(youtube_ids, ytplaylist, video, repeat):
+def play(BASE_URL, youtube_ids, ytplaylist, video, repeat):
     playback_args = ['mpv']
 
     if ytplaylist:

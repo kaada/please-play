@@ -22,7 +22,6 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "mpv",
         "youtube-dl",
         "requests",
     ],
