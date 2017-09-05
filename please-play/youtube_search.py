@@ -37,4 +37,8 @@ def search(search_key, playlist=False):
         print('YouTube returned data:\n---\n{} -> {}\n---'.format(r.status_code, r.content))
         sys.exit(1)
 
+    if data['pageInfo']['totalResults'] == 0:
+        print('No results found. Please change your search key.')
+        sys.exit(1)
+
     return result_videos
