@@ -2,9 +2,10 @@ import sys
 import requests
 import json
 import base64
+from urllib.parse import urlencode
 
 API_KEY = 'QUl6YVN5QVk1czVKWW9uNjR6TU9JbGhDc0hHMXRvWkYwWUIzYTg4'
-BASE_URL= 'https://www.googleapis.com/youtube/v3/search?'
+BASE_URL = 'https://www.googleapis.com/youtube/v3/search?'
 
 
 def search(search_key, playlist=False):
@@ -20,8 +21,7 @@ def search(search_key, playlist=False):
         # Please don't steal my key
         'key': base64.b64decode(API_KEY).decode()
     }
-    query_string = BASE_URL + '&'.join('{}={}'.format(key, val) \
-            for key, val in query.items())
+    query_string = BASE_URL + urlencode(query)
 
     try:
         r = requests.get(query_string)
