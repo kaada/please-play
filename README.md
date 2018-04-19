@@ -10,11 +10,13 @@ A lightweight terminal based YouTube music player
     python setup.py install
     ```
 
-2. Play whatever song you want:
+2. Generate a YouTube/Google API key here: https://console.developers.google.com/, and set the environment variable 'GOOGLE_API_KEY' in your local environment.
+
+3. Play whatever song you want:
 
     ```python pls.py "wonder woman theme"```
 
-3. If you are not satisfied;
+4. If you are not satisfied;
 
     List the results, and choose something else.
 
