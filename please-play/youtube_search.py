@@ -36,7 +36,7 @@ def search(search_key, playlist=False):
         sys.exit(1)
 
     if data['pageInfo']['totalResults'] == 0:
-        print('No results found. Please change your search key.')
-        sys.exit(1)
+        print('No results found for {}.\nPlease change your search key.'.format(search_key))
+        return
 
     return result_videos

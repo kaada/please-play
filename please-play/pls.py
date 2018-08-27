@@ -26,7 +26,8 @@ def main(args):
     for s in args.searchkeys:
         search_result = youtube_search.search(s, \
                 True if args.ytplaylist else False)
-        youtube_results.append(search_result)
+        if search_result:
+            youtube_results.append(search_result)
 
     #print search results
     if args.search:
