@@ -6,6 +6,7 @@ import argparse
 
 import name_parse
 import music_search
+import play_file
 
 
 def main(args):
@@ -31,7 +32,7 @@ def get_music_file(song_name):
 
 def play(music_file):
     """Plays the music file with the preferred music player, e.g. mpv.."""
-    print('Playing: {}'.format(music_file))
+    play_file.play(music_file)
 
 
 if __name__ == "__main__":
