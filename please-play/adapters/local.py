@@ -1,6 +1,7 @@
 import subprocess
 import re
 import os
+import fnmatch
 
 def search(song_name):
     BASE_PATH = '/Users/kaada/Music/flac'
@@ -8,16 +9,14 @@ def search(song_name):
 
     regex = re.compile(r'(?i).*{}.*\.flac'.format(song_name))
 
-    r = []
+    found = []
     for root, _, files in os.walk(BASE_PATH, topdown=False):
-        print(files)
-        found = filter(regex.match, files)
-        print([f for f in found])
-        if found:
-            return os.path.join(root, found[0])
+        for name in files:
+            if fnmatch.fnmatch(name.lower(), '*{}*.flac'.format(song_name.lower())):
+                found.append(os.path.join(root, name))
 
-    if r:
-        print(' => {}'.format(r[0]))
-        return r[0]
+    if found:
+        print(' => {}\nand\n{}'.format(found[0], found))
+        return found[0]
     else:
         print(' => File not found')
