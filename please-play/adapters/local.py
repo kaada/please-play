@@ -3,9 +3,11 @@ import re
 import os
 import fnmatch
 
-def search(song_name):
+from song import Song
+
+def search(song_name, number):
     BASE_PATH = '/Users/kaada/Music/flac'
-#    print('Searching {}'.format(BASE_PATH), end='')
+    print('Searching {}'.format(BASE_PATH))
 
     regex = re.compile(r'(?i).*{}.*\.flac'.format(song_name))
 
@@ -13,10 +15,16 @@ def search(song_name):
     for root, _, files in os.walk(BASE_PATH, topdown=False):
         for name in files:
             if fnmatch.fnmatch(name.lower(), '*{}*.flac'.format(song_name.lower())):
-                found.append(os.path.join(root, name))
+                found.append(Song(name, os.path.join(root, name)))
 
     if found:
-        print(' => {}\nand\n{}'.format(found[0], found))
-        return found[0]
+        for index, song in enumerate(found):
+            print('{}: {}'.format(index, song.title))
+
+        if number > len(found) - 1:
+            print('Number specified {} is out of bounds {}.'.format(number, len(found) - 1))
+            exit(1)
+        print('{} => {}'.format(number, found[number].title))
+        return found[number]
     else:
-        print(' => File not found')
+        print('=> File not found')
