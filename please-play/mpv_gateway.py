@@ -1,8 +1,7 @@
 import subprocess
 
-
-def play(location, repeat=False):
-    playback_args = ['mpv', location, '--no-video']
+def play(source, repeat=False):
+    playback_args = ['mpv', source, '--no-video']
 
     if repeat:
         playback_args.append('--loop-playlist')

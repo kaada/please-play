@@ -1,30 +1,13 @@
-import re
-import codecs
-import errno
+from song import Song
 
-def fetch_songs(file_path):
-    try:
-        with codecs.open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+class Playlist:
+    def __init__(self, songs, populate_songs=False):
+        self.songs = []
 
-            if file_path.endswith('.m3u'):
-                if not 'EXTM3U' in f.readline():
-                    print('Error: The .m3u-file has no song information (EXTINF-fields are missing)')
-                    exit(1)
-                reg = re.compile('#EXTINF:\d+,([^\r\n]+)')
-            else:
-                reg = re.compile('([^\r\n]+)')
+        for s in songs:
+            song = Song(s, populate_songs)
 
-            songs = []
-            for line in f:
-                match = re.search(reg, line)
-                if match:
-                    songs.append(match.group(1))
+            self.songs.append(song)
 
-            return songs
-
-    except OSError as e:
-        if e.errno == errno.ENOENT:
-            print("Error: File '{}' not found".format(e.filename))
-        else:
-            print(e)
-        exit(1)
+    def get_songs(self):
+        return self.songs

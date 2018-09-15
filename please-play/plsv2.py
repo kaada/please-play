@@ -7,39 +7,47 @@ import argparse
 import name_parse
 import music_search
 import play_file
+import song
+from playlist import Playlist
+import toolbox
 
 
 def main(args):
-    raw_song_name = ' '.join(args.searchkey)
-    print('Processing search key: {}'.format(raw_song_name))
 
-    processed_song_name = parse_song_name(raw_song_name)
+    if args.playlist:
+        songs = toolbox.load_playlist_file(args.playlist)
+        pl = Playlist(songs)
+    else:
+        raw_song_name = ' '.join(args.searchkey)
+        pl = Playlist([raw_song_name])
 
-    music_file = get_music_file(processed_song_name, args.number)
+    for s in pl.get_songs():
+        s.populate()
 
-    play(music_file)
+        play(s)
 
+def play(song):
+    """Plays the song with the preferred music player, e.g. mpv.."""
 
-def parse_song_name(raw_song_name):
-    """Tries to convert raw (inputted) song name to exact name, based on online information, if available."""
-    return name_parse.parse(raw_song_name)
+    print('---')
+    print(f'Playing song: {song.get_title()}')
 
+    medias = song.get_medias()
+    if medias:
+        for media in medias: 
+            print(media)
 
-def get_music_file(song_name, number):
-    """Checks if the music file is on disk. If not, retrieves it from external sources."""
-    if not number: # TODO: move value to function definition
-        number = 0
-    return music_search.search(song_name, number)
-
-def play(music_file):
-    """Plays the music file with the preferred music player, e.g. mpv.."""
-    #play_file.play(music_file)
+        best_media = medias[0]
+        play_file.play(best_media.get_source())
+    else:
+        print(f'No media file found for "{song.get_title()}".')
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Plays the given song from the best source available.')
     parser.add_argument('searchkey', nargs='*', metavar='string', type=str, help='name of the song(s) to play')
     parser.add_argument('-n', '--number', type=int, help='number of the YouTube result to play')
+    parser.add_argument('-pl', '--playlist', metavar='string', type=str, help='name of playlist to play')
 
     args = parser.parse_args()
 

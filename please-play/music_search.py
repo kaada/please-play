@@ -1,12 +1,17 @@
 from adapters import local, youtube
 
-def search(song_name, number):
-    print('Searching for: {}'.format(song_name))
+def search(song_name):
+    #print('Searching for: {}'.format(song_name))
 
-    music = None
+    MAX_FROM_SOURCE = 3
+    medias = []
 
-    music = local.search(song_name, number)
-    if music is None:
-        music = youtube.search(song_name, number)
+    local_files = local.search(song_name)
+    if local_files:
+        medias.extend(local_files[:MAX_FROM_SOURCE])
 
-    return music
+    youtube_files = youtube.search(song_name)
+    if youtube_files:
+        medias.extend(youtube_files[:MAX_FROM_SOURCE])
+
+    return medias
