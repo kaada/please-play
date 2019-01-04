@@ -25,7 +25,7 @@ def search(search_key, playlist=False):
     query_string = BASE_URL + urlencode(query)
 
     try:
-        r = requests.get(query_string)
+        r = requests.get(query_string, timeout=3)
     except requests.exceptions.RequestException as e:
         if DEBUG:
             print(f'An error occured during search for YouTube data: \n{e}')
