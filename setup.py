@@ -11,7 +11,7 @@ setup(
     description="Play YouTube music from your terminal with ease.",
     long_description=readme_data,
     author="Olav Kaada",
-    author_email="mail@okaada.com",
+    author_email="olav.kaada [æt] gmail.com",
     url="https://github.com/kaada/please-play",
     classifiers=[
         "Topic :: Software Development",
