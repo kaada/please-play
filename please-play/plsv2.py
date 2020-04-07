@@ -37,6 +37,7 @@ def play(song):
         for media in medias: 
             print(media)
 
+        #TODO: media file analysis
         best_media = medias[0]
         play_file.play(best_media.get_source())
     else:
