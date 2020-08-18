@@ -3,6 +3,7 @@ import music_search
 class Song:
     def __init__(self, title, populate_song):
         self.title = title
+        self.medias = []
 
         if populate_song:
             self.populate(self.title)
@@ -14,5 +15,14 @@ class Song:
         return self.title
 
     def get_medias(self):
-        if self.medias:
-            return self.medias
+        return self.medias
+
+    def print_medias(self):
+        print(f'Showing results for: {self.get_title()}')
+
+        medias = self.get_medias()
+        if medias:
+            for m in medias:
+                print(m)
+        else:
+            print(f'No media found for "{self.get_title()}". Try to repopulate the song.')

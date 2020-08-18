@@ -1,4 +1,4 @@
 import mpv_gateway
 
-def play(location):
-    mpv_gateway.play(location)
+def play(location, repeat=False):
+    mpv_gateway.play(location, repeat)

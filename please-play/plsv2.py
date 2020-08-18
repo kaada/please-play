@@ -24,9 +24,13 @@ def main(args):
     for s in pl.get_songs():
         s.populate()
 
-        play(s)
+        if args.search:
+            s.print_medias()
+            continue
 
-def play(song):
+        play_song(s, args.repeat)
+
+def play_song(song, repeat=False):
     """Plays the song with the preferred music player, e.g. mpv.."""
 
     print('---')
@@ -34,12 +38,10 @@ def play(song):
 
     medias = song.get_medias()
     if medias:
-        for media in medias: 
-            print(media)
-
         #TODO: media file analysis
-        best_media = medias[0]
-        play_file.play(best_media.get_source())
+        selected_media = medias[0]
+        print(selected_media)
+        play_file.play(selected_media.get_source(), repeat)
     else:
         print(f'No media file found for "{song.get_title()}".')
 
@@ -49,6 +51,8 @@ if __name__ == "__main__":
     parser.add_argument('searchkey', nargs='*', metavar='string', type=str, help='name of the song(s) to play')
     parser.add_argument('-n', '--number', type=int, help='number of the YouTube result to play')
     parser.add_argument('-pl', '--playlist', metavar='string', type=str, help='name of playlist to play')
+    parser.add_argument('-s', '--search', action='store_true', help='list the results')
+    parser.add_argument('-r', '--repeat', action='store_true', help='play output on repeat')
 
     args = parser.parse_args()
 
